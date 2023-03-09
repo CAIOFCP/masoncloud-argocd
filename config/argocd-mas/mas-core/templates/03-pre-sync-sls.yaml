@@ -1,0 +1,72 @@
+---
+{{ if .Values.config.presync.sls }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "presync-mas-sls-{{.Values.mas_instance_id}}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "03"
+  namespace: openshift-gitops
+spec:
+  template:
+    spec:
+      volumes:
+        - name: configs
+          persistentVolumeClaim:
+            claimName: ibm-mas-installer-pvc
+        - name: sls-entitlement
+          secret:
+            secretName: "{{.Values.sls.entitlement}}"
+      containers:
+        - name: config
+          image: quay.io/ibmmas/cli
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "{{.Values.resources.requests.memory}}"
+              cpu: "{{.Values.resources.requests.cpu}}"
+            limits:
+              memory: "{{.Values.resources.limits.memory}}"
+              cpu: "{{.Values.resources.limits.cpu}}"
+          volumeMounts:
+            - mountPath: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}"
+              name: configs
+            - mountPath: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}/sls/"
+              name: sls-entitlement
+              readOnly: true
+          env:
+            - name: ARGOCD_NAMESPACE
+              value: openshift-gitops
+            - name: ROLE_NAME
+              value: sls
+            - name: MAS_INSTANCE_ID
+              value: {{.Values.mas_instance_id}}
+            - name: MAS_CONFIG_DIR
+              value: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}"
+            - name: SLS_NAMESPACE
+              value: "mas-{{.Values.mas_instance_id}}-sls"
+            - name: SLS_MONGODB_CFG_FILE
+              value: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}/mongo-mongoce.yml"
+            - name: SLS_CHANNEL
+              value: "{{.Values.sls.channel}}"
+            - name: IBM_ENTITLEMENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "ibm-entitlement"
+                  key: ibm_entitlement_key
+            - name: SLS_LICENSE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: "{{.Values.sls.entitlement}}"
+                  key: licenseId
+            - name: SLS_LICENSE_FILE
+              value: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}/sls/entitlement.lic"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ansible-playbook ibm.mas_devops.run_role
+      restartPolicy: Never
+      serviceAccountName: "{{.Values.serviceaccount.ibm_mas_installer}}"
+  backoffLimit: 4
+{{end}}

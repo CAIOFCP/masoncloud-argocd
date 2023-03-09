@@ -1,0 +1,14 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ibm-mas-installer-pvc
+  namespace: openshift-gitops
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: "{{.Values.pvc.storageClassName}}"
+  volumeMode: Filesystem

@@ -1,0 +1,4 @@
+serviceaccount:
+  ibm_mas_installer: ibm-mas-installer
+pvc:
+  storageClassName: ibmc-file-gold-gid

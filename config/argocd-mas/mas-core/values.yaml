@@ -1,0 +1,41 @@
+# MAS Core Params
+mas_instance_id: inst1
+mas_channel: 8.9.0
+domain: inst1.masms-stg-auto-roks-np-wd-486459f4491660185b16b67e392c4805-0000.us-east.containers.appdomain.cloud
+base_mas_config_dir: /configs
+settings:
+    icr:
+      cp: cp.icr.io/cp
+      cpopen: icr.io/cpopen
+
+# SLS Params
+sls:
+  channel: 3.4.1
+  entitlement: sls-settings
+
+
+
+serviceaccount:
+  ibm_mas_installer: ibm-mas-installer
+
+
+# Pipeline Config
+config:
+  presync:
+    uds: true
+    mongo: true
+    sls: true
+resources:
+  requests:
+    memory: "0"
+    cpu: "0"
+  limits:
+    memory: "0"
+    cpu: "0"
+
+# UDS Contanct Info
+uds:
+  contact:
+    email: caiofcp@br.ibm.com
+    firstname: Caio
+    lastname: Pereira

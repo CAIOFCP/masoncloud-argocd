@@ -1,0 +1,54 @@
+---
+{{ if .Values.config.presync.uds }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "presync-mas-uds-{{.Values.mas_instance_id}}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "02"
+  namespace: openshift-gitops
+spec:
+  template:
+    spec:
+      volumes:
+        - name: configs
+          persistentVolumeClaim:
+            claimName: ibm-mas-installer-pvc
+      containers:
+        - name: config
+          image: quay.io/ibmmas/cli
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "{{.Values.resources.requests.memory}}"
+              cpu: "{{.Values.resources.requests.cpu}}"
+            limits:
+              memory: "{{.Values.resources.limits.memory}}"
+              cpu: "{{.Values.resources.limits.cpu}}"
+          volumeMounts:
+            - mountPath: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}"
+              name: configs
+          env:
+            - name: ARGOCD_NAMESPACE
+              value: openshift-gitops
+            - name: ROLE_NAME
+              value: uds
+            - name: MAS_INSTANCE_ID
+              value: {{.Values.mas_instance_id}}
+            - name: MAS_CONFIG_DIR
+              value: "{{.Values.base_mas_config_dir}}/{{.Values.mas_instance_id}}"
+            - name: UDS_CONTACT_EMAIL
+              value: "{{.Values.uds.contact.email}}"
+            - name: UDS_CONTACT_FIRSTNAME
+              value: "{{.Values.uds.contact.firstname}}"
+            - name: UDS_CONTACT_LASTNAME
+              value: "{{.Values.uds.contact.lastname}}"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              ansible-playbook ibm.mas_devops.run_role
+      restartPolicy: Never
+      serviceAccountName: "{{.Values.serviceaccount.ibm_mas_installer}}"
+  backoffLimit: 4
+{{end}}

@@ -1,0 +1,202 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ibm-mas-installer-cluster-role
+rules:
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - secrets
+      - pods
+      - pods/exec
+      - pods/log
+      - persistentvolumeclaims
+      - persistentvolumes
+      - configmaps
+      - serviceaccounts
+      - namespaces
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - environment.sre.aipps.ibm.com
+    resources:
+      - sreenvironments
+      - sreenvironments/status
+      - sreenvironments/finalizers
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - tekton.dev
+    resources:
+      - pipelines
+      - clustertasks
+      - tasks
+      - conditions
+  - verbs:
+      - create
+      - get
+      - update
+      - delete
+      - watch
+      - list
+      - patch
+    apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterrolebindings
+      - clusterroles
+  - verbs:
+      - get
+      - list
+      - update
+      - watch
+      - create
+      - update
+      - patch
+    apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - operators.coreos.com
+    resources:
+      - catalogsources
+      - subscriptions
+      - operatorgroups
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - kafka.strimzi.io
+    resources:
+      - kafkas
+      - kafkausers
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+      - serviceaccounts
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - apps.mas.ibm.com
+    resources:
+      - manageapps
+      - manageworkspaces
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - tekton.dev
+    resources:
+      - pipelineruns
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - security.openshift.io
+    resources:
+      - securitycontextconstraints
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - metaoperator.cpd.ibm.com
+    resources:
+      - cpdservices
+  - verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    apiGroups:
+      - route.openshift.io
+    resources:
+      - routes
+  - verbs:
+      - get
+      - list
+    apiGroups:
+      - config.openshift.io
+    resources:
+      - ingresses

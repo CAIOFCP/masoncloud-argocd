@@ -1,0 +1,21 @@
+---
+apiVersion: core.mas.ibm.com/v1
+kind: Suite
+metadata:
+  name: "{{.Values.mas_instance_id}}"
+  namespace: mas-{{.Values.mas_instance_id}}-core
+  labels:
+    mas.ibm.com/instanceId: "{{.Values.mas_instance_id}}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "07"
+spec:
+  domain: "{{.Values.domain}}"
+  certManagerNamespace: ibm-common-services
+  license:
+    accept: true
+  settings:
+    icr:
+      cp: "{{.Values.settings.icr.cp}}"
+      cpopen: "{{.Values.settings.icr.cpopen}}"
+status: {}
+
