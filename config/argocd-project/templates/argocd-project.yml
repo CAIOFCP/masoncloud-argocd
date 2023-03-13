@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: "{{.Values.cluster_name}}-{{.Values.mas_instance_id }}"
+  namespace: openshift-gitops
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  description: {{.Values.description}}
+  destinations:
+    - name: '*'
+      namespace: '*'
+      server: '{{.Values.destination}}'
+  sourceRepos:
+    - 'https://github.com/CAIOFCP/masoncloud-argocd.git'
+  syncWindows:
+    - applications:
+        - '*'
+      clusters:
+        - '*'
+      duration: 1h
+      kind: allow
+      manualSync: true
+      namespaces:
+        - '*'
+      schedule: '* 23 * * *'
+      timeZone: {{.Values.time_zone}}
+status: {}

@@ -1,6 +1,6 @@
 apiVersion: v2
-name: mas-manage
-description: MAS Manage deployment chart
+name: argocd-project
+description: MAS Project
 
 # A chart can be either an 'application' or a 'library' chart.
 #

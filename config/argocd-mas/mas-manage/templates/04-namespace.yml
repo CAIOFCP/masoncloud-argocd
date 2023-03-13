@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "mas-{{.Values.mas_instance_id}}-manage"
+  annotations:
+    argocd.argoproj.io/sync-wave: "01"
+spec: {}
+status: {}

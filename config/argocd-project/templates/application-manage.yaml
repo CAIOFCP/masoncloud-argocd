@@ -1,0 +1,37 @@
+---
+{{ if .Values.config.manage.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "{{.Values.mas_instance_id }}-manage"
+  namespace: openshift-gitops
+spec:
+  destination:
+    server: '{{.Values.destination}}'
+  ignoreDifferences:
+    - group: cert-manager.io
+      jsonPointers:
+        - /spec/
+        - /metadata/
+        - /status/
+      kind: Certificate
+    - group: v1
+      jsonPointers:
+        - /spec/
+        - /metadata/
+        - /status/
+      kind: Secret
+  project: "{{.Values.cluster_name}}-{{.Values.mas_instance_id }}"
+  source:
+    helm:
+      parameters:
+        - name: mas_instance_id
+          value: "{{.Values.mas_instance_id }}"
+        - name: mas_manage_channel
+          value: "{{.Values.manage.version }}"
+    path: config/argocd-mas/mas-manage
+    repoURL: 'https://github.com/CAIOFCP/masoncloud-argocd.git'
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+{{end}}

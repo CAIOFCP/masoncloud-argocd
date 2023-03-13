@@ -1,0 +1,14 @@
+---
+apiVersion: apps.mas.ibm.com/v1
+kind: ManageApp
+metadata:
+  name: {{.Values.mas_instance_id}}
+  namespace: "mas-{{.Values.mas_instance_id}}-manage"
+  labels:
+    mas.ibm.com/applicationId: manage
+    mas.ibm.com/instanceId: {{.Values.mas_instance_id}}
+  annotations:
+    argocd.argoproj.io/sync-wave: "04"
+spec: {}
+status: {}
+

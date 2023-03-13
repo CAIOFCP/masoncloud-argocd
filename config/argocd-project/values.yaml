@@ -1,0 +1,20 @@
+mas_instance_id: inst1
+domain: specify_domain
+destination: Specify_destination
+cluster_name: masms-stg-auto-roks-np-wdc
+time_zone: Europe/Berlin
+config:
+  core:
+    version: 8.9.0
+  manage:
+    enabled: false
+    version: 8.5.0
+  monitor:
+    enabled: false
+    version: 8.2.0
+  predict:
+    enabled: false
+    version: 8.4.0
+  mvi:
+    enabled: false
+    version: 8.1.0
