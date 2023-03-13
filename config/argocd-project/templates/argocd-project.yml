@@ -12,7 +12,7 @@ spec:
   destinations:
     - name: '*'
       namespace: '*'
-      server: '{{.Values.destination}}'
+      server: {{.Values.destination}}
   sourceRepos:
     - 'https://github.com/CAIOFCP/masoncloud-argocd.git'
   syncWindows:
