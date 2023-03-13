@@ -1,10 +1,11 @@
 ---
+{{ if .Values.config.postsync.suite_config }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: "postsync-suite-config-{{.Values.mas_instance_id}}"
   annotations:
-    argocd.argoproj.io/sync-wave: "08"
+    argocd.argoproj.io/hook: PostSync
   namespace: openshift-gitops
 spec:
   template:
@@ -44,3 +45,4 @@ spec:
       restartPolicy: Never
       serviceAccountName: "{{.Values.serviceaccount.ibm_mas_installer}}"
   backoffLimit: 4
+{{end}}

@@ -5,6 +5,7 @@ kind: Job
 metadata:
   name: "presync-mas-sls-{{.Values.mas_instance_id}}"
   annotations:
+    argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/sync-wave: "03"
   namespace: openshift-gitops
 spec:

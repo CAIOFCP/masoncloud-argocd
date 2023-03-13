@@ -5,7 +5,7 @@ metadata:
   name: ibm-mas-operator
   namespace: "mas-{{.Values.mas_instance_id}}-core"
   annotations:
-    argocd.argoproj.io/sync-wave: "06"
+    argocd.argoproj.io/sync-wave: "03"
 spec:
   channel: "{{.Values.mas_channel}}"
   installPlanApproval: Automatic

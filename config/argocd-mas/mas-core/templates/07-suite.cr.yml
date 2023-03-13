@@ -7,7 +7,7 @@ metadata:
   labels:
     mas.ibm.com/instanceId: "{{.Values.mas_instance_id}}"
   annotations:
-    argocd.argoproj.io/sync-wave: "07"
+    argocd.argoproj.io/sync-wave: "04"
 spec:
   domain: "{{.Values.domain}}"
   certManagerNamespace: ibm-common-services

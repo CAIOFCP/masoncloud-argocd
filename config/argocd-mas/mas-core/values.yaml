@@ -25,6 +25,9 @@ config:
     uds: true
     mongo: true
     sls: true
+  postsync:
+    suite_config: true
+
 resources:
   requests:
     memory: "0"
